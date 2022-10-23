@@ -32,7 +32,7 @@ public class PersonaController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<Persona> getById(@PathVariable("id")int id){
         if(!sPersona.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.BAD_REQUEST);
         }
         
         Persona persona = sPersona.getOne(id).get();
@@ -42,13 +42,13 @@ public class PersonaController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoPersona dtopersona){
         if(!sPersona.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.NOT_FOUND);
         }
         if(sPersona.existsByNombre(dtopersona.getNombre()) && sPersona.getByNombre(dtopersona.getNombre()).get().getId() != id){
-            return new ResponseEntity(new Mensaje("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("The name already exists"), HttpStatus.BAD_REQUEST);
         }
         if(StringUtils.isBlank(dtopersona.getNombre())){
-            return new ResponseEntity(new Mensaje("El campo no puede estar vacio"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Field required"), HttpStatus.BAD_REQUEST);
         }
         
         Persona persona = sPersona.getOne(id).get();
@@ -58,6 +58,6 @@ public class PersonaController {
         
         sPersona.save(persona);
         
-        return new ResponseEntity(new Mensaje("Perfil actualizado"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Updated"), HttpStatus.OK);
     }
 }

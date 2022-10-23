@@ -12,15 +12,13 @@ public class Proyectos {
     private int id;
     private String nombreP;
     private String descripcionP;
-    private String imgP;
 
     public Proyectos() {
     }
 
-    public Proyectos(String nombreP, String descripcionP, String imgP) {
+    public Proyectos(String nombreP, String descripcionP) {
         this.nombreP = nombreP;
         this.descripcionP = descripcionP;
-        this.imgP = imgP;
     }
 
     public int getId() {
@@ -45,15 +43,6 @@ public class Proyectos {
 
     public void setDescripcionP(String descripcionP) {
         this.descripcionP = descripcionP;
-    }
-
-    public String getImgP() {
-        return imgP;
-    }
-
-    public void setImgP(String imgP) {
-        this.imgP = imgP;
-    }
-    
+    }   
     
 }

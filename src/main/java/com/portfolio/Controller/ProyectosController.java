@@ -35,7 +35,7 @@ public class ProyectosController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<Proyectos> getById(@PathVariable("id")int id){
         if(!sProyectos.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.BAD_REQUEST);
         }
         
         Proyectos proyectos = sProyectos.getOne(id).get();
@@ -45,35 +45,35 @@ public class ProyectosController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id){
         if(!sProyectos.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.NOT_FOUND);
         }
         sProyectos.delete(id);
-        return new ResponseEntity(new Mensaje("Proyecto eliminado"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Deleted"), HttpStatus.OK);
     }
     
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody DtoProyectos dtoProyectos){      
         if(StringUtils.isBlank(dtoProyectos.getNombreP()))
-            return new ResponseEntity(new Mensaje("Nombre obligatorio"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Field required"), HttpStatus.BAD_REQUEST);
         if(sProyectos.existsByNombreP(dtoProyectos.getNombreP()))
-            return new ResponseEntity(new Mensaje("El proyecto ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Already exists"), HttpStatus.BAD_REQUEST);
         
         Proyectos proyecto = new Proyectos();
         sProyectos.save(proyecto);
         
-        return new ResponseEntity(new Mensaje("Educacion agregada"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Added"), HttpStatus.OK);
     }
     
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoProyectos dtoProyectos){
         if(!sProyectos.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.NOT_FOUND);
         }
         if(sProyectos.existsByNombreP(dtoProyectos.getNombreP()) && sProyectos.getByNombreP(dtoProyectos.getNombreP()).get().getId() != id){
-            return new ResponseEntity(new Mensaje("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("The name already exists"), HttpStatus.BAD_REQUEST);
         }
         if(StringUtils.isBlank(dtoProyectos.getNombreP())){
-            return new ResponseEntity(new Mensaje("El campo no puede estar vacio"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Field required"), HttpStatus.BAD_REQUEST);
         }
         
         Proyectos proyectos = sProyectos.getOne(id).get();
@@ -83,6 +83,6 @@ public class ProyectosController {
         
         sProyectos.save(proyectos);
         
-        return new ResponseEntity(new Mensaje("Educacion actualizada"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Updated"), HttpStatus.OK);
     }
 }

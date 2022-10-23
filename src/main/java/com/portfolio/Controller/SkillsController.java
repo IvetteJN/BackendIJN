@@ -24,69 +24,69 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/skill")
 public class SkillsController {
     @Autowired
-    SkillsService shys;
+    SkillsService skillsService;
 
     @GetMapping("/lista")
     public ResponseEntity<List<Skills>> list() {
-        List<Skills> list = shys.list();
+        List<Skills> list = skillsService.list();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<Skills> getById(@PathVariable("id") int id) {
-        if (!shys.existsById(id)) {
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        if (!skillsService.existsById(id)) {
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.NOT_FOUND);
         }
-        Skills hYs = shys.getOne(id).get();
-        return new ResponseEntity(hYs, HttpStatus.OK);
+        Skills skills = skillsService.getOne(id).get();
+        return new ResponseEntity(skills, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
-        if (!shys.existsById(id)) {
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        if (!skillsService.existsById(id)) {
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.NOT_FOUND);
         }
-        shys.delete(id);
-        return new ResponseEntity(new Mensaje("Skill eliminado"), HttpStatus.OK);
+        skillsService.delete(id);
+        return new ResponseEntity(new Mensaje("Deleted"), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody DtoSkills dtohys) {
-        if (StringUtils.isBlank(dtohys.getNombre())) {
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> create(@RequestBody DtoSkills dtoskills) {
+        if (StringUtils.isBlank(dtoskills.getNombre())) {
+            return new ResponseEntity(new Mensaje("Name required"), HttpStatus.BAD_REQUEST);
         }
-        if (shys.existsByNombre(dtohys.getNombre())) {
-            return new ResponseEntity(new Mensaje("Esa skill ya existe"), HttpStatus.BAD_REQUEST);
+        if (skillsService.existsByNombre(dtoskills.getNombre())) {
+            return new ResponseEntity(new Mensaje("Already exists"), HttpStatus.BAD_REQUEST);
         }
 
-        Skills hYs = new Skills(dtohys.getNombre(), dtohys.getPorcentaje());
-        shys.save(hYs);
+        Skills skills = new Skills(dtoskills.getNombre(), dtoskills.getPorcentaje());
+        skillsService.save(skills);
 
-        return new ResponseEntity(new Mensaje("Skill agregada"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Added"), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoSkills dtohys) {
-        //Validamos si existe el ID
-        if (!shys.existsById(id)) {
-            return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoSkills dtoskills) {
+        
+        if (!skillsService.existsById(id)) {
+            return new ResponseEntity(new Mensaje("The ID doesnt exist"), HttpStatus.BAD_REQUEST);
         }
-        //Compara nombre de skills
-        if (shys.existsByNombre(dtohys.getNombre()) && shys.getByNombre(dtohys.getNombre()).get()
+        
+        if (skillsService.existsByNombre(dtoskills.getNombre()) && skillsService.getByNombre(dtoskills.getNombre()).get()
                 .getId() != id) {
-            return new ResponseEntity(new Mensaje("Esa skill ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("That name already exists"), HttpStatus.BAD_REQUEST);
         }
-        //No puede estar vacio
-        if (StringUtils.isBlank(dtohys.getNombre())) {
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        if (StringUtils.isBlank(dtoskills.getNombre())) {
+            return new ResponseEntity(new Mensaje("Field required"), HttpStatus.BAD_REQUEST);
         }
 
-        Skills hYs = shys.getOne(id).get();
-        hYs.setNombre(dtohys.getNombre());
-        hYs.setPorcentaje(dtohys.getPorcentaje());
+        Skills skills = skillsService.getOne(id).get();
+        skills.setNombre(dtoskills.getNombre());
+        skills.setPorcentaje(dtoskills.getPorcentaje());
 
-        shys.save(hYs);
-        return new ResponseEntity(new Mensaje("Skill actualizada"), HttpStatus.OK);
+        skillsService.save(skills);
+        return new ResponseEntity(new Mensaje("Updated"), HttpStatus.OK);
 
     }
 }

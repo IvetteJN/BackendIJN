@@ -18,9 +18,6 @@ public class Persona {
     
     @NotNull
     private String apellido;
-    
-    @NotNull
-    private String img;
 
     @NotNull
     @Size(min = 1, max = 5000)
@@ -32,10 +29,9 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String img, String descripcionP, String tituloP) {
+    public Persona(String nombre, String apellido, String descripcionP, String tituloP) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.img = img;
         this.descripcionP = descripcionP;
         this.tituloP = tituloP;
     }
@@ -62,14 +58,6 @@ public class Persona {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
     }
 
     public String getDescripcionP() {

@@ -1,6 +1,7 @@
 package com.portfolio.Dto;
 
 import java.time.LocalDate;
+import java.util.Date;
 import javax.validation.constraints.NotBlank;
 
 public class DtoExperiencia {
