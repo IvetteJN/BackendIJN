@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = {"https://frontendijn.web.app","http://localhost:4200"})
+@CrossOrigin(origins = {"https://ivettejaelnobilta-3e8d7.web.app","http://localhost:4200"})
 
 public class AuthController {
     @Autowired
@@ -47,13 +47,13 @@ public class AuthController {
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Mensaje("Campos incorrectos o email invalido"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Wrong fields"),HttpStatus.BAD_REQUEST);
         
         if(usuarioService.existsByNombreUsuario(nuevoUsuario.getNombreUsuario()))
-            return new ResponseEntity(new Mensaje("Nombre de usuario en uso"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Username in use"), HttpStatus.BAD_REQUEST);
         
         if(usuarioService.existsByEmail(nuevoUsuario.getEmail()))
-            return new ResponseEntity(new Mensaje("Email en uso"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Email in use"), HttpStatus.BAD_REQUEST);
         
         Usuario usuario = new Usuario(nuevoUsuario.getNombre(), nuevoUsuario.getNombreUsuario(),
             nuevoUsuario.getEmail(), passwordEncoder.encode(nuevoUsuario.getPassword()));
@@ -66,13 +66,13 @@ public class AuthController {
         usuario.setRoles(roles);
         usuarioService.save(usuario);
         
-        return new ResponseEntity(new Mensaje("Usuario guardado"),HttpStatus.CREATED);
+        return new ResponseEntity(new Mensaje("User saved"),HttpStatus.CREATED);
     }
     
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Mensaje("Campos incorrectos"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Wrong fields"), HttpStatus.BAD_REQUEST);
         
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
         loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
