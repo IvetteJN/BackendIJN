@@ -19,16 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/persona")
-@CrossOrigin(origins = {"https://ivettejaelnobilta-3e8d7.web.app","http://localhost:4200"})
+@CrossOrigin(origins = "https://ivettejaelnobilta-3e8d7.web.app")
 public class PersonaController {
     @Autowired
     ImpPersonaService sPersona;
     
-    @GetMapping("/lista")
-    public ResponseEntity<List<Persona>> list(){
-        List<Persona> list = sPersona.list();
-        return new ResponseEntity(list, HttpStatus.OK);
-    }
     @GetMapping("/detail/{id}")
     public ResponseEntity<Persona> getById(@PathVariable("id")int id){
         if(!sPersona.existsById(id)){
