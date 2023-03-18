@@ -12,7 +12,6 @@ com\portfolio\Security\Dto\JwtDto.class
 com\portfolio\Security\Entity\Rol.class
 com\portfolio\Security\jwt\JwtTokenFilter.class
 com\portfolio\Security\Repository\iRolRepository.class
-com\portfolio\WebConfig.class
 com\portfolio\Controller\ProyectosController.class
 com\portfolio\Repository\ProyectosRepository.class
 com\portfolio\Security\Entity\UsuarioPrincipal.class
